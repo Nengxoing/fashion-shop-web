@@ -9,7 +9,7 @@ import { useRegisterForm } from "./hook";
 import { Heading } from "@/components/ui/Heading";
 import { Eye, EyeOff } from "lucide-react";
 import { RegisterSchema } from "./schema";
-import axios from "axios";
+import { registerUser } from "../api/register";
 
 export default function RegisterForm() {
   const {
@@ -27,13 +27,10 @@ export default function RegisterForm() {
 
   const onSubmit = async (data: RegisterSchema) => {
     try {
-      // const res = await axios.post("http://localhost:4000/api/register", data);
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/register`,
-        data
-      );
+      const res = await registerUser(data);
+      console.log("Response from register:", res);
+      alert("Registered successfully!");
 
-      alert(`Welcome ${res.data.name}! Registration successful.`);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.response) {
@@ -47,8 +44,11 @@ export default function RegisterForm() {
 
   return (
     <Card className="w-full max-w-md">
-      <CardContent className="p-6 space-y-4">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-16">
+      <CardContent className="space-y-4">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="max-w-md mx-auto bg-white rounded-lg space-y-8"
+        >
           <div className="space-y-8">
             <Heading className="text-center">ສະໝັກບັນຊີ</Heading>
 
@@ -134,6 +134,15 @@ export default function RegisterForm() {
           <Button type="submit" className="w-full" disabled={isSubmitting}>
             {isSubmitting ? "ກຳລັງສະໝັກບັນຊີ..." : "ສະໝັກບັນຊີ"}
           </Button>
+
+          <p className="text-center text-gray-600">
+            ມີບັນຊີແລ້ວ?{" "}
+            <span>
+              <a href="/login" className="underline text-blue-600">
+                ເຂົ້າສູ່ລະບົບ
+              </a>
+            </span>
+          </p>
         </form>
       </CardContent>
     </Card>

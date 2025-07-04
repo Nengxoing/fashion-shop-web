@@ -19,7 +19,7 @@ const headingVariants = cva(
       },
     },
     defaultVariants: {
-      size: "lg",
+      size: "md",
       weight: "semibold",
     },
   }
